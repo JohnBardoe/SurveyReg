@@ -45,29 +45,16 @@ function outputColoumn($grade){
         dataType: 'json',
         data: data,
         success:function(data){
-            $('.team-list').append("<table class=\"table\">\n" +
-                "  <thead class=\"thead-dark\">\n" +
-                "    <tr>\n" +
-                "      <th scope=\"col\">#</th>\n");
-            for(let i = 1; i <= data[$grade].length; i++)
-                $('.team-list').append("<th scope=\"col\">" + i + "</th>");
-            $('.team-list').append("    </tr>\n" +
-                "  </thead>\n" +
-                "  <tbody>");
-            for(let i = 0; i < maxTeam; i++){
-                $('.team-list').append("<tr> <th scope='row'> + i +</th>");
-                for(let j = 0; j < data[$grade].length; j++) {
-                    if(data[$grade][j].length > i){
-                        $('.team-list').append("<td>" + data[$grade][j] + "</td>");
-                    }
-                    else {
-                        $('.team-list').append("<td>~~Empty~~</td>");
-                    }
-                    $('.team-list').append("</tr>");
-                }
+            for(let i = 1; i <= data[$grade].length; i++) {
+                $('.team-list').append("<div class=\"card\" style=\"width: 18rem;\">\n" +
+                    "  <div class=\"card-header\">\n" +
+                    "Team " + i +
+                    "  </div>\n" +
+                    "  <ul class=\"list-group list-group-flush\">");
+                for(let j = 0; j < data[$grade][i].length; i++)
+                    $('.team-list').append("<li class=\"list-group-item\">"+ data[$grade][i][j] +"</li>");
+                $('.team-list').append("</ul></div>");
             }
-            $('.team-list').append("  </tbody>\n" +
-                "</table>");
             makeSubmiiter(data[$grade].length);
         }});
 
