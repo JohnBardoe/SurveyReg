@@ -1,0 +1,141 @@
+<html>
+<head>
+    <!--bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <title>Fire safety</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+const maxTeam = 15;
+
+function makeSubmiiter($max) {
+    $('.selector-submitter').append("    <div class=\"form-row\">" +
+    "      <label for=\"teamNum\">Team number</label>" +
+    "      <select id=\"teamNum\" class=\"form-control spacing_main\">" +
+    "        <option>1</option>");
+    for(let i = 2; i <= $max; i++)
+        $('.selector-submitter').append("<option>"+ i +"</option>");
+    $('.selector-submitter').append("</select></div>");
+    $('.selector-submitter').append("<button type=\"submit\" class=\"btn btn-primary form-group col-md-4 spacing_main\">Register</button>");
+}
+
+function makeNameBox() {
+    $('.name-text').append("<label for=\"name\">Name</label>\n" +
+        "    <input type=\"text\" class=\"form-control spacing_main\" id=\"name\" placeholder=\"Beep boop\" required=\"true\">");
+    $('.name-text').append("<label for=\"name\">Surname</label>\n" +
+        "    <input type=\"text\" class=\"form-control spacing_main\" id=\"surname\" placeholder=\"(i'm a robot, sry)\" required=\"true\">");
+}
+function outputColoumn($grade){
+    $('.team-list').empty();
+    $('.name-text').empty();
+    $('.selector-submitter').empty();
+
+    $('.name-text').append(" <div class='d-flex'> <hr class='my-auto flex-grow-1'> <div class='px-4'> Fill in your name </div> <hr class='my-auto flex-grow-1'> </div> ");
+    makeNameBox()
+    $('.name-text').append(" <div class='d-flex'> <hr class='my-auto flex-grow-1'> <div class='px-4'> Choose the team </div> <hr class='my-auto flex-grow-1'> </div> ");
+
+    let data = [[[],[],[],[],[]],
+        [[],[],[],[],[]],
+        [[],[],[],[],[],[]]];
+
+    $.ajax({
+        type:'POST',
+        url:'fetchTeams.php',
+        dataType: 'json',
+        data: data,
+        success:function(data){
+            $('.team-list').append("<table class=\"table\">\n" +
+                "  <thead class=\"thead-dark\">\n" +
+                "    <tr>\n" +
+                "      <th scope=\"col\">#</th>\n");
+            for(let i = 1; i <= data[$grade].length; i++)
+                $('.team-list').append("<th scope=\"col\">" + i + "</th>");
+            $('.team-list').append("    </tr>\n" +
+                "  </thead>\n" +
+                "  <tbody>");
+            for(let i = 0; i < maxTeam; i++){
+                $('.team-list').append("<tr> <th scope='row'> + i +</th>");
+                for(let j = 0; j < data[$grade].length; j++) {
+                    if(data[$grade][j].length > i){
+                        $('.team-list').append("<td>" + data[$grade][j] + "</td>");
+                    }
+                    else {
+                        $('.team-list').append("<td>~~Empty~~</td>");
+                    }
+                    $('.team-list').append("</tr>");
+                }
+            }
+            $('.team-list').append("  </tbody>\n" +
+                "</table>");
+            makeSubmiiter(data[$grade].length);
+        }});
+
+}
+$(document).ready(function(){
+    let grade;
+    $('#grade_s').on('click',function(){
+        outputColoumn(0);
+        grade = 0;
+    });
+    $('#grade_e').on('click',function(){
+        outputColoumn(1);
+        grade = 1;
+    });
+    $('#grade_n').on('click',function(){
+        outputColoumn(2);
+        grade = 2;
+    });
+
+    $('#regForm').submit(function(){ //add grade info
+        $.each(params, function(i,param){
+            $('<input />').attr('type', 'hidden')
+                .attr('name', "grade")
+                .attr('value', grade)
+                .appendTo('#regForm');
+        });
+
+        return true;
+    });
+});
+</script>
+</head>
+
+<body>
+<div class="jumbotron text-center">
+    <h1>Fire safety</h1>
+    <p>This is where the text is supposed to be...</p>
+</div>
+
+<div class="d-flex">
+  <hr class="my-auto flex-grow-1">
+  <div class="px-4">
+      Select your grade
+  </div>
+    <hr class="my-auto flex-grow-1">
+</div>
+
+<div class='container'>
+    <div class='row'>
+        <div class='col-sm'>
+            <button type="button" class="btn btn-outline-success" id='grade_s'>7 grade</button>
+        </div>
+        <div class='col-sm'>
+            <button type="button" class="btn btn-outline-success" id='grade_e'>8 grade</button>
+        </div>
+        <div class='col-sm'>
+            <button type="button" class="btn btn-outline-success" id='grade_n'>9 grade</button>
+        </div>
+    </div>
+</div>
+<form id="regForm" action="/newMember.php">
+
+    <div class="name-text form-group"></div>
+
+    <div class='team-list'></div>
+
+    <div class="selector-submitter form-group"></div>
+</form>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
