@@ -11,13 +11,13 @@
     <script>
 const maxTeam = 15;
 
-function makeSubmiiter($max) {
-    $('.selector-submitter').append("    <div class=\"form-row\">" +
+function makeSubmitter($max) {
+    $('.selector-submitter').append(" <div class='d-flex'> <hr class='my-auto flex-grow-1'> <div class='px-4'> Select your team </div> <hr class='my-auto flex-grow-1'> </div> ");
+    $('.selector-submitter').append("    <div class=\"form-group\">" +
     "      <label for=\"teamNum\">Team number</label>" +
-    "      <select id=\"teamNum\" class=\"form-control spacing_main\">" +
-    "        <option>1</option>");
-    for(let i = 2; i <= $max; i++)
-        $('.selector-submitter').append("<option>"+ i +"</option>");
+    "      <select class=\"form-control\" id=\"teamNum\" required='true'>");
+    for(let i = 1; i <= $max; i++)
+        $('.selector-submitter').append("<option> Team "+ i +"</option>");
     $('.selector-submitter').append("</select></div>");
     $('.selector-submitter').append("<button type=\"submit\" class=\"btn btn-primary form-group col-md-4 spacing_main\">Register</button>");
 }
@@ -35,7 +35,7 @@ function outputColoumn($grade){
 
     $('.name-text').append(" <div class='d-flex'> <hr class='my-auto flex-grow-1'> <div class='px-4'> Fill in your name </div> <hr class='my-auto flex-grow-1'> </div> ");
     makeNameBox()
-    $('.name-text').append(" <div class='d-flex'> <hr class='my-auto flex-grow-1'> <div class='px-4'> Choose the team </div> <hr class='my-auto flex-grow-1'> </div> ");
+    $('.name-text').append(" <div class='d-flex'> <hr class='my-auto flex-grow-1'> <div class='px-4'> Team observer </div> <hr class='my-auto flex-grow-1'> </div> ");
 
     let data = [[[],[],[],[],[]],
         [[],[],[],[],[]],
@@ -47,18 +47,17 @@ function outputColoumn($grade){
         dataType: 'json',
         data: data,
         success:function(data){
-            console.log(data);
-            for(let i = 1; i <= data[$grade].length; i++) {
+            for(let i = 0; i < data[$grade].length; i++) {
                 $('.team-list').append("<div class=\"card\" style=\"width: 18rem;\">\n" +
                     "  <div class=\"card-header\">\n" +
-                    "Team " + i +
+                    "Team " + (i+1) +
                     "  </div>\n" +
                     "  <ul class=\"list-group list-group-flush\">");
-                for(let j = 0; j < data[$grade][i].length; i++)
-                    $('.team-list').append("<li class=\"list-group-item\">"+ data[$grade][i][j] +"</li>");
+                for(let j = 1; j <= data[$grade][i].length; j++)
+                    $('.team-list').append("<li class=\"list-group-item\" style=\"width: 18rem;\">"+ data[$grade][i][j] +"</li>");
                 $('.team-list').append("</ul></div>");
             }
-            makeSubmiiter(data[$grade].length);
+            makeSubmitter(data[$grade].length);
 
         }});
 
