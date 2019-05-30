@@ -8,7 +8,7 @@ $prts = array(array(array(),array(),array(),array(),array()), //7grade, teams 1-
     array(array(),array(),array(),array(),array(),array())); //9grade, teams 1-6
 if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_assoc($result)) {
-        $prts[$row["grade"]][$row["team"]] = $row["name"]." ".$row["surname"][0].".";
+        array_push($prts[$row["grade"]][$row["team"]],$row["name"]." ".$row["surname"][0].".");
     }
 }
 echo json_encode($prts);
