@@ -17,120 +17,109 @@
 
 
     <script>
-const maxTeam = 15;
-
-function addFields($grade, $team){
-    $('<input />').attr('type', 'hidden')
-        .attr('name', 'grade')
-        .attr('value', $grade)
-        .appendTo('#regForm');
-    $('<input />').attr('type', 'hidden')
-        .attr('name', 'team')
-        .attr('value', $team)
-        .appendTo('#regForm');
-    if($('form#regForm').valid())
-        $('form#regForm').submit();
-}
-
-function makeNameBox() {
-    $('.name-text').append("<label for=\"name\">Name</label>\n" +
-        "    <input type=\"text\" class=\"form-control spacing_main\" name='name' id=\"name\" placeholder=\"Beep boop\" required=\"true\">");
-    $('.name-text').append("<label for=\"name\">Surname</label>\n" +
-        "    <input type=\"text\" class=\"form-control spacing_main\" name='surname' id=\"surname\" placeholder=\"(i'm a robot, sry)\" required=\"true\">");
-}
-function outputColoumn($grade){
-    $('.team-list').empty();
-    $('.name-text').empty();
-    $('.selector-submitter').empty();
-
-    $('.name-text').append(" <div class='d-flex'> <hr class='my-auto flex-grow-1'> <div class='px-4'> Fill in your name </div> <hr class='my-auto flex-grow-1'> </div> ");
-    makeNameBox()
-    $('.name-text').append(" <div class='d-flex'> <hr class='my-auto flex-grow-1'> <div class='px-4'> Team observer </div> <hr class='my-auto flex-grow-1'> </div> ");
-
-    let data = [[[],[],[],[],[]],
-        [[],[],[],[],[]],
-        [[],[],[],[],[],[]]];
-
-    $.ajax({
-        type:'POST',
-        url:'fetchTeams.php',
-        dataType: 'json',
-        data: data,
-        success:function(data){
-            for(let i = 0; i < data[$grade].length; i++) {
-                $('.team-list').append("<div class=\"card\" style=\"width: 18rem;\">\n" +
-                    "  <div class=\"card-header container-fluid\">\n" +
-                    "Team " + (i+1) +
-                    "      <button class=\"col-md-3 float-right btn btn-primary\" id='tmb-" + (i+1)+ "'>Join</button> "+
-                    "  </div>\n" +
-                    "  <ul class=\"list-group list-group-flush\">");
-                for(let j = 0; j < data[$grade][i].length; j++)
-                    $('.team-list').append("<li class=\"list-group-item\" style=\"width: 18rem;\">"+ data[$grade][i][j] +"</li>");
-                $('.team-list').append("</ul></div>");
-            }
-        }});
-
-    $(document).on("click", "#tmb-1" , function() {
-        addFields($grade, 0);
-    });
-
-    $(document).on("click", "#tmb-2" , function(){
-        addFields($grade, 1);
-    });
-
-    $(document).on("click", "#tmb-3" , function(){
-        addFields($grade, 2);
-    });
-
-    $(document).on("click", "#tmb-4" , function(){
-        addFields($grade, 3);
-    });
-
-    $(document).on("click", "#tmb-5" , function(){
-        addFields($grade, 4);
-    });
-    if($grade === 2){
-        $(document).on("click", "#tmb-6" , function(){
-            addFields($grade, 5);
-        });
-
-    }
-
-
-}
-$(document).ready(function(){
-    let grade;
-    let team;
-
-    jQuery.validator.setDefaults({
-        errorElement: 'span',
-        errorPlacement: function (error, element) {
-            error.addClass('invalid-feedback');
-            element.closest('.form-group').append(error);
-        },
-        highlight: function (element, errorClass, validClass) {
-            $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-            $(element).removeClass('is-invalid');
+        const maxTeam = 15;
+        function addFields($grade, $team){
+            $('<input />').attr('type', 'hidden')
+                .attr('name', 'grade')
+                .attr('value', $grade)
+                .appendTo('#regForm');
+            $('<input />').attr('type', 'hidden')
+                .attr('name', 'team')
+                .attr('value', $team)
+                .appendTo('#regForm');
+            if($('form#regForm').valid())
+                $('form#regForm').submit();
         }
-    });
-    
-    $('#grade_s').on('click',function(){
-        outputColoumn(0);
-        grade = 0;
-    });
-    $('#grade_e').on('click',function(){
-        outputColoumn(1);
-        grade = 1;
-    });
-    $('#grade_n').on('click',function(){
-        outputColoumn(2);
-        grade = 2;
-    });
+        function makeNameBox() {
+            $('.name-text').append("<label for=\"name\">Name</label>\n" +
+                "    <input type=\"text\" class=\"col-md-3 form-control spacing_main\" name='name' id=\"name\" placeholder=\"Beep boop\" required=\"true\">");
+            $('.name-text').append("<label for=\"name\">Surname</label>\n" +
+                "    <input type=\"text\" class=\"col-md-3 form-control spacing_main\" name='surname' id=\"surname\" placeholder=\"(i'm a robot, sry)\" required=\"true\">");
+        }
+        function outputColoumn($grade){
+            $('.team-list').empty();
+            $('.name-text').empty();
+            $('.selector-submitter').empty();
+            $('.name-text').append(" <div class='d-flex'> <hr class='my-auto flex-grow-1'> <div class='px-4'> Fill in your name </div> <hr class='my-auto flex-grow-1'> </div> ");
+            makeNameBox()
+            $('.name-text').append(" <div class='d-flex'> <hr class='my-auto flex-grow-1'> <div class='px-4'> Team observer </div> <hr class='my-auto flex-grow-1'> </div> ");
+            let data = [[[],[],[],[],[]],
+                [[],[],[],[],[]],
+                [[],[],[],[],[],[]]];
+            $.ajax({
+                type:'POST',
+                url:'fetchTeams.php',
+                dataType: 'json',
+                data: data,
+                success:function(data){
+                    var table = "";
+                    table+="<div class='container'><div class='row'>";
+                    for(let i = 0; i < data[$grade].length; i++) {
+                        table+="<div class='col col-lg-4'><div class=\"card\" style=\"width: 18rem;\">\n" +
+                            "  <div class=\"card-header container-fluid\">\n" +
+                            "Team " + (i+1) +
+                            "      <button class=\"col-md-3 float-right btn btn-primary\" id='tmb-" + (i+1)+ "'>Join</button> "+
+                            "  </div>\n" +
+                            "  <ul class=\"list-group list-group-flush\">";
+                        for(let j = 0; j < data[$grade][i].length; j++)
+                            table+="<li class=\"list-group-item\">"+ data[$grade][i][j] +"</li>";
+                        table+="</ul></div></div>";
+                    }
+                    table+="</div></div>";
+                    $('.team-list').append(table);
+                }});
+            $(document).on("click", "#tmb-1" , function() {
+                addFields($grade, 0);
+            });
+            $(document).on("click", "#tmb-2" , function(){
+                addFields($grade, 1);
+            });
+            $(document).on("click", "#tmb-3" , function(){
+                addFields($grade, 2);
+            });
+            $(document).on("click", "#tmb-4" , function(){
+                addFields($grade, 3);
+            });
+            $(document).on("click", "#tmb-5" , function(){
+                addFields($grade, 4);
+            });
+            if($grade === 2){
+                $(document).on("click", "#tmb-6" , function(){
+                    addFields($grade, 5);
+                });
+            }
+        }
+        $(document).ready(function(){
+            let grade;
+            let team;
+            jQuery.validator.setDefaults({
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
 
-});
-</script>
+            $('#grade_s').on('click',function(){
+                outputColoumn(0);
+                grade = 0;
+            });
+            $('#grade_e').on('click',function(){
+                outputColoumn(1);
+                grade = 1;
+            });
+            $('#grade_n').on('click',function(){
+                outputColoumn(2);
+                grade = 2;
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -140,10 +129,10 @@ $(document).ready(function(){
 </div>
 
 <div class="d-flex">
-  <hr class="my-auto flex-grow-1">
-  <div class="px-4">
-      Select your grade
-  </div>
+    <hr class="my-auto flex-grow-1">
+    <div class="px-4">
+        Select your grade
+    </div>
     <hr class="my-auto flex-grow-1">
 </div>
 

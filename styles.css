@@ -1,5 +1,13 @@
-.spacing_main{
-    padding-left: 50px;
-    padding-right: 50px;
-}
+.padding-left-xs { padding-left: .25em; }
+.padding-left-sm { padding-left: .5em; }
+.padding-left-md { padding-left: 1em; }
+.padding-left-lg { padding-left: 1.5em; }
+.padding-left-xl { padding-left: 3em; }
+
+.margin-left-xs { margin-left: .25em; }
+.margin-left-sm { margin-left: .5em; }
+.margin-left-md { margin-left: 1em; }
+.margin-left-lg { margin-left: 1.5em; }
+.margin-left-xl { margin-left: 3em; }
+
 .card {display:inline-block;}
