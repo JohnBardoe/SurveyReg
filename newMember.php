@@ -15,9 +15,9 @@ if(isset($_POST)){
         echo "<img src='images/failure.gif'><br>".mysqli_error($db);
     }
     else{
-        echo "<body style='background-image:url(images/success.png);background-repeat:no-repeat;background-size:99%;'>";
+        echo "<body style='background-image:url(images/success.png);background-repeat:no-repeat; background-size:contain; background-attachment: fixed;'>";
     }
     }
-    else echo "<body style='background-image:url(images/failure.png);background-repeat:no-repeat;background-size:99%;'>";
+    else echo "<body style='background-image:url(images/failure.png);background-repeat:no-repeat; background-size: contain; background-attachment: fixed;'>";
 }
 ?>
