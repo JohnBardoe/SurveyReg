@@ -1,13 +1,37 @@
-.padding-left-xs { padding-left: .25em; }
-.padding-left-sm { padding-left: .5em; }
-.padding-left-md { padding-left: 1em; }
-.padding-left-lg { padding-left: 1.5em; }
-.padding-left-xl { padding-left: 3em; }
-
-.margin-left-xs { margin-left: .25em; }
-.margin-left-sm { margin-left: .5em; }
-.margin-left-md { margin-left: 1em; }
-.margin-left-lg { margin-left: 1.5em; }
-.margin-left-xl { margin-left: 3em; }
+body, html {
+    height: 100%;
+}
 
 .card {display:inline-block;}
+
+.caption span. border {
+    background-color: #111;
+    color: #fff;
+    padding: 18px;
+    font-size: 25px;
+    letter-spacing: 10px;
+}
+.content {
+    overflow: auto;
+    position: relative;
+}
+
+.content:before {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: -1;
+
+    display: block;
+    background-image: url('images/bg.jpg');
+    background-size:cover;
+    width: 100%;
+    height: 100%;
+
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+}

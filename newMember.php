@@ -8,8 +8,9 @@ if(isset($_POST)){
     $surname_ts = transliterator_transliterate('Any-Latin; Latin-ASCII;', $_POST['surname']);
     $grade = $_POST['grade'];
     $team = $_POST['team'];
-    $search_res = $db->query("SELECT * FROM participants WHERE name='".$name_ts."'AND surname='".$surname_ts."'AND grade=".$grade);
-    if(mysqli_num_rows($search_res) == 0){
+    $search_res_1 = $db->query("SELECT * FROM participants WHERE name='".$name_ts."'AND surname='".$surname_ts."'AND grade=".$grade);
+    $search_res_2 = $db->query("SELECT * FROM participants WHERE name='".$surname_ts."'AND surname='".$name_ts."'AND grade=".$grade);
+    if(mysqli_num_rows($search_res_1) + mysqli_num_rows($search_res_2) == 0){
     if(!mysqli_query($db, "INSERT IGNORE INTO participants (grade, name, surname, team) VALUES ('".$grade."', '".$name_ts."','".$surname_ts."', '".$team."' )")){
         echo "<img src='images/failure.gif'><br>".mysqli_error($db);
     }
