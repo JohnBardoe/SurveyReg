@@ -15,9 +15,9 @@ if(isset($_POST)){
         echo "<img src='images/failure.gif'><br>".mysqli_error($db);
     }
     else{
-        echo "<img src='images/success.jpg'>";
+        echo "<body style='background-image:url(images/success.png);background-repeat:no-repeat;background-size:99%;'>";
     }
     }
-    else echo "<img src='images/failure.png'><br><br><h2>THE USER IS ALREADY REGISTERED</h2>";
+    else echo "<body style='background-image:url(images/failure.png);background-repeat:no-repeat;background-size:99%;'>";
 }
 ?>
